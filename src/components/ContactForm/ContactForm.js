@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import actions from '../../redux/phonebook-actions';
-import PropTypes from 'prop-types';
+import { getContacts } from '../../redux/phonebook-selector';
 import s from '../styles/Input.module.css';
 
-function ContactForm(props) {
+function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
   const handleChange = e => {
     const { name, value } = e.currentTarget;
     console.log(name, value);
-    console.log(props);
     if (e.currentTarget.name === 'name') {
       setName(e.currentTarget.value);
     } else if (e.currentTarget.name === 'number') {
@@ -26,8 +28,7 @@ function ContactForm(props) {
   };
 
   const checkContact = (name, number) => {
-    console.log('contacts in checkContact', props.contacts);
-    const isNameInContact = props.contacts.some(
+    const isNameInContact = contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase(),
     );
 
@@ -38,7 +39,7 @@ function ContactForm(props) {
         name,
         number,
       };
-      props.onSubmit(newContact);
+      dispatch(actions.addContact(newContact));
     }
   };
   const reset = () => {
@@ -72,16 +73,8 @@ function ContactForm(props) {
   );
 }
 
-const mapStateToProps = state => ({
-  contacts: state.phonebook.contacts,
-});
+export default ContactForm;
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: newContact => dispatch(actions.addContact(newContact)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
+// ContactForm.propTypes = {
+//   onSubmit: PropTypes.func.isRequired,
+// };

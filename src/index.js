@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './components/App';
 import store from './redux/store';
-import { myAction } from './redux/phonebook-actions';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
