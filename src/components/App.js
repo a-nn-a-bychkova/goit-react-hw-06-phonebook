@@ -26,7 +26,7 @@ function App() {
   return (
     <div>
       <h1>Phonebook</h1>
-      <ContactForm onSubmit={addContact} />
+      <ContactForm />
       <h2>Contacts</h2>
       {contacts.length > 0 ? <Filter /> : <p>Your phonebook is empty</p>}
 
