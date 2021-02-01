@@ -13,7 +13,7 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import { contactsReducer, filterReducer } from './phonebook-reducer';
+import reducers from './phonebook-reducer';
 import storage from 'redux-persist/lib/storage';
 import logger from 'redux-logger';
 
@@ -26,27 +26,25 @@ const middleware = [
   logger,
 ];
 
-// const phonebookPersistConfig = {
-//   key: 'phonebook',
-//   storage,
-//   blacklist: ['filter'],
-// };
+const phonebookPersistConfig = {
+  key: 'phonebook',
+  storage,
+  blacklist: ['filter'],
+};
 
 const store = configureStore({
-  // reducer: persistReducer(phonebookPersistConfig, {
+  reducer: {
+    phonebook: persistReducer(phonebookPersistConfig, reducers),
+  },
+  // reducer: {
   //   filter: filterReducer,
   //   contacts: contactsReducer,
-  // }),
-
-  reducer: {
-    filter: filterReducer,
-    contacts: contactsReducer,
-  },
+  // },
   middleware,
   devTools: process.env.NODE_ENV === 'development',
 });
 
 const persistor = persistStore(store);
 
-// export default { store, persistor };
-export default { store };
+export default { store, persistor };
+// export default { store };

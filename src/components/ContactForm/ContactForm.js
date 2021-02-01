@@ -73,7 +73,7 @@ function ContactForm(props) {
 }
 
 const mapStateToProps = state => ({
-  contacts: state.contacts,
+  contacts: state.phonebook.contacts,
 });
 
 const mapDispatchToProps = dispatch => ({
