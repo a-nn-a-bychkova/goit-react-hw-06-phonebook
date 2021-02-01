@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import actions from '../../redux/phonebook-actions';
 import PropTypes from 'prop-types';
@@ -11,6 +11,7 @@ function ContactForm(props) {
   const handleChange = e => {
     const { name, value } = e.currentTarget;
     console.log(name, value);
+    console.log(props);
     if (e.currentTarget.name === 'name') {
       setName(e.currentTarget.value);
     } else if (e.currentTarget.name === 'number') {
@@ -20,10 +21,26 @@ function ContactForm(props) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    props.onSubmit(name, number);
+    checkContact(name, number);
     reset();
   };
 
+  const checkContact = (name, number) => {
+    console.log('contacts in checkContact', props.contacts);
+    const isNameInContact = props.contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase(),
+    );
+
+    if (isNameInContact) {
+      alert(`${name} is already in contact`);
+    } else if (name !== '' || number !== '') {
+      const newContact = {
+        name,
+        number,
+      };
+      props.onSubmit(newContact);
+    }
+  };
   const reset = () => {
     setName('');
     setNumber('');
@@ -55,20 +72,12 @@ function ContactForm(props) {
   );
 }
 
-// const addContactFunction = (name, number) => {
-//   const isNameInContact = state.contacts.some(
-//     contact => contact.name.toLowerCase() === name.toLowerCase(),
-//   );
+const mapStateToProps = state => ({
+  contacts: state.contacts,
+});
 
-//   if (isNameInContact) {
-//     alert(`${name} is already in contact`);
-//   } else if (name !== '' || number !== '') {
-//     addContact(name, number);
-//   }
-// };
-const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
-  onSubmit: (name, number) => dispatch(actions.addContact(name, number)),
+  onSubmit: newContact => dispatch(actions.addContact(newContact)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
