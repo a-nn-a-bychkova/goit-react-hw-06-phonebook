@@ -13,7 +13,6 @@ function ContactForm() {
 
   const handleChange = e => {
     const { name, value } = e.currentTarget;
-    console.log(name, value);
     if (e.currentTarget.name === 'name') {
       setName(e.currentTarget.value);
     } else if (e.currentTarget.name === 'number') {

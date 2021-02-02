@@ -3,7 +3,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import actions from '../redux/phonebook-actions';
 import initialContacts from '../initialContacts.json';
 
-const filter = createReducer(' ', {
+const filter = createReducer('', {
   [actions.changeFilter]: (_, action) => action.payload,
 });
 const contacts = createReducer(initialContacts, {
